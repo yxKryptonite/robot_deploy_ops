@@ -1,9 +1,10 @@
 import pyrealsense2 as rs
 import numpy as np
 import cv2
+import os
 
 class Camera():
-    def __init__(self, width=640, height=360) -> None:
+    def __init__(self, width, height) -> None:
         # 确定图像的输入分辨率与帧率
         resolution_width = width  # pixels
         resolution_height = height  # pixels
@@ -105,9 +106,11 @@ class Camera():
     
 
 if __name__ == "__main__":
-    camera = Camera()
+    camera = Camera(width=640, height=480)
     c, d = camera.get_image_with_depth()
     print(c.shape, d.shape)
+    os.makedirs("./color",exist_ok=True)
+    os.makedirs("./depth",exist_ok=True)
     cv2.imwrite("./color/1.png", c)
     cv2.imwrite("./depth/1.png", d)
     
