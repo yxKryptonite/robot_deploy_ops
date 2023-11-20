@@ -5,11 +5,13 @@ from turtlebot.turn_right30 import TurnRight
 from network.scp import get_scp_client, upload_img, download_txt
 
 def main():
-    config_file = "network/mm.yaml"
-    scpclient = get_scp_client(config_file)
+    # config_file = "network/mm.yaml"
+    # scpclient = get_scp_client(config_file)
     
     while True:
         GoForward()
+        TurnLeft()
+        TurnRight()
         break
     
 if __name__ == "__main__":
