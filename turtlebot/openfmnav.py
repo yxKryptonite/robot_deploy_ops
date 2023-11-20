@@ -11,3 +11,6 @@ def main():
     while True:
         GoForward()
         break
+    
+if __name__ == "__main__":
+    main()
