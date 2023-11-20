@@ -24,7 +24,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 import rospy
 from geometry_msgs.msg import Twist
 
-class GoForward():
+class TurnLeft():
     def __init__(self):
         # initiliaze
         rospy.init_node('GoForward', anonymous=False)
@@ -73,7 +73,7 @@ class GoForward():
  
 if __name__ == '__main__':
     try:
-        GoForward()
+        TurnLeft()
     except:
         rospy.loginfo("GoForward node terminated.")
 
