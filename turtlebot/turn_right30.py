@@ -30,7 +30,7 @@ class TurnRight():
         rospy.init_node('GoForward', anonymous=False)
 
 	# tell user how to stop TurtleBot
-        rospy.loginfo("To stop TurtleBot CTRL + C")
+        rospy.loginfo("TURN RIGHT, To stop TurtleBot CTRL + C")
 
         # What function to call when you ctrl + c    
         rospy.on_shutdown(self.shutdown)
