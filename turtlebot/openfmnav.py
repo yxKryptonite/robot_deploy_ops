@@ -31,12 +31,12 @@ def main():
         cv2.imwrite(f"./{now}/depth/{count}.png", d)
         code = generate_code()
         with open(f"./{now}/code.txt", "w") as f:
-            f.write(code)
-        upload_file(scpclient, f"/data/xxx/openfmnav/{now}/color/{count}.png", f"./{now}/color/{count}.png")
-        upload_file(scpclient, f"/data/xxx/openfmnav/{now}/depth/{count}.png", f"./{now}/depth/{count}.png")
-        upload_file(scpclient, f"/data/xxx/openfmnav/{now}/code.txt", f"./{now}/code.txt")
+            f.write(f"{count} {code}")
+        upload_file(scpclient, f"/data/xxx/nav_res/real/color/{count}.png", f"./{now}/color/{count}.png")
+        upload_file(scpclient, f"/data/xxx/nav_res/real/depth/{count}.png", f"./{now}/depth/{count}.png")
+        upload_file(scpclient, f"/data/xxx/nav_res/real/code.txt", f"./{now}/code.txt")
         
-        result = wait_for_result(scpclient, f"/data/xxx/openfmnav/{now}/result.txt", f"./{now}/result.txt")
+        result, code = wait_for_result(scpclient, f"/data/xxx/nav_res/real/result.txt", f"./{now}/result.txt", code=code)
         if result == 1:
             GoForward()
         elif result == 2:

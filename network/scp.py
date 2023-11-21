@@ -41,10 +41,11 @@ def wait_for_result(scpclient, remote_path, file_path, code):
             download_file(scpclient, remote_path, file_path)
             with open(file_path, "r") as f:
                 result, new_code = f.read().split(' ')
-            if new_code == code:
-                continue
+            if new_code != code:
+                return int(result), new_code
             else:
-                return int(result)
+                time.sleep(0.1)
+                continue
         except:
             time.sleep(0.1)
             continue
