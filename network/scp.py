@@ -25,19 +25,36 @@ def get_scp_client(config_file="mm.yaml"):
 # remote_path远程服务器目录
 # file_path本地文件夹路径
 # img_name是file_path本地文件夹路径下面的文件名称
-def upload_img(scpclient, remote_path, file_path):
+def upload_file(scpclient, remote_path, file_path):
     # img_name示例：07670ff76fc14ab496b0dd411a33ac95-6.webp
     scpclient.put(file_path, remote_path)
 
-def download_txt(scpclient, remote_path, file_path):
+def download_file(scpclient, remote_path, file_path):
     scpclient.get(remote_path, file_path)
+    
+def generate_code():
+    return str(datetime.datetime.now().timestamp()).replace('.', '')
+    
+def wait_for_result(scpclient, remote_path, file_path, code):
+    while True:
+        try:
+            download_file(scpclient, remote_path, file_path)
+            with open(file_path, "r") as f:
+                result, new_code = f.read().split(' ')
+            if new_code == code:
+                continue
+            else:
+                return int(result)
+        except:
+            time.sleep(0.1)
+            continue
 
 if __name__ == "__main__":
     start = time.time()
     scpclient = get_scp_client("mm.yaml")
     print('ssh time:', time.time()-start, 's')
-    upload_img(scpclient, remote_path='/data/xxx/', file_path='mm.yaml')
+    upload_file(scpclient, remote_path='/data/xxx/', file_path='mm.yaml')
     print(time.time()-start)
     start = time.time()
-    upload_img(scpclient, remote_path='/data/xxx/', file_path='mm.yaml')
+    upload_file(scpclient, remote_path='/data/xxx/', file_path='mm.yaml')
     print(time.time()-start)
