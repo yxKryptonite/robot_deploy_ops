@@ -5,9 +5,7 @@ import datetime
 import os
 import yaml
 
-def get_scp_client(config_file="mm.yaml"):
-    with open(config_file, "r") as f:
-        cfg = yaml.load(f.read(), Loader=yaml.FullLoader)
+def get_scp_client(cfg):
 
     host = cfg['ip']  #服务器ip地址
     port = cfg['port']  # 端口号
@@ -51,8 +49,10 @@ def wait_for_result(scpclient, remote_path, file_path, code):
             continue
 
 if __name__ == "__main__":
+    with open("mm.yaml", "r") as f:
+        cfg = yaml.load(f)
     start = time.time()
-    scpclient = get_scp_client("mm.yaml")
+    scpclient = get_scp_client(cfg=cfg)
     print('ssh time:', time.time()-start, 's')
     upload_file(scpclient, remote_path='/data/xxx/', file_path='mm.yaml')
     print(time.time()-start)

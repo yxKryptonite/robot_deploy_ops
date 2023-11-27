@@ -6,11 +6,15 @@ from turtlebot.turn_left30 import TurnLeft # 2
 from turtlebot.turn_right30 import TurnRight # 3
 from network.scp import get_scp_client, upload_file, download_file, wait_for_result, generate_code
 import datetime
+import yaml
 
 def main():
     now = datetime.datetime.now().strftime('%Y-%m-%d_%H:%M:%S')
     config_file = "network/mm.yaml"
-    scpclient = get_scp_client(config_file)
+    with open(config_file, "r") as f:
+        cfg = yaml.load(f)
+    scpclient = get_scp_client(cfg)
+    uname = cfg['name']
     code = None
     
     camera = Camera(width=640, height=480)
@@ -32,11 +36,11 @@ def main():
         remote_code = generate_code()
         with open(f"./{now}/code.txt", "w") as f:
             f.write(f"{count} {remote_code}")
-        upload_file(scpclient, f"/data1/xxx/nav_res/real/color/{count}.png", f"./{now}/color/{count}.png")
-        upload_file(scpclient, f"/data1/xxx/nav_res/real/depth/{count}.png", f"./{now}/depth/{count}.png")
-        upload_file(scpclient, f"/data1/xxx/nav_res/real/code.txt", f"./{now}/code.txt")
+        upload_file(scpclient, f"/data1/{uname}/nav_res/real/color/{count}.png", f"./{now}/color/{count}.png")
+        upload_file(scpclient, f"/data1/{uname}/nav_res/real/depth/{count}.png", f"./{now}/depth/{count}.png")
+        upload_file(scpclient, f"/data1/{uname}/nav_res/real/code.txt", f"./{now}/code.txt")
         
-        result, code = wait_for_result(scpclient, f"/data1/xxx/nav_res/real/result.txt", f"./{now}/result.txt", code=code)
+        result, code = wait_for_result(scpclient, f"/data1/{uname}/nav_res/real/result.txt", f"./{now}/result.txt", code=code)
         if result == 1:
             GoForward()
         elif result == 2:
