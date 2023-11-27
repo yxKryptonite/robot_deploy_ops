@@ -21,7 +21,7 @@ class Camera():
         self.disparity_to_depth = rs.disparity_transform(False)
         self.thr_filter = rs.threshold_filter()
         self.thr_filter.set_option(rs.option.min_distance,0.01)
-        self.thr_filter.set_option(rs.option.max_distance,100.0)
+        self.thr_filter.set_option(rs.option.max_distance,16.0)
 
 
         # 注册数据流，并对其图像

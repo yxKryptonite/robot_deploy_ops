@@ -12,7 +12,7 @@ def main():
     now = datetime.datetime.now().strftime('%Y-%m-%d_%H:%M:%S')
     config_file = "network/mm.yaml"
     with open(config_file, "r") as f:
-        cfg = yaml.load(f)
+        cfg = yaml.load(f, Loader=yaml.FullLoader)
     scpclient = get_scp_client(cfg)
     uname = cfg['name']
     code = None
