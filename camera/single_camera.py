@@ -64,7 +64,7 @@ class Camera():
 
         return color_image
 
-    def get_image_with_depth(self):
+    def get_image_with_depth(self, depth_filter=True):
         # 等待数据进来
         frames = self.pipeline.wait_for_frames()
 
@@ -76,21 +76,15 @@ class Camera():
 
         color_image = np.asanyarray(color_frame.get_data())
 
-        depth_frame = frames.get_depth_frame()
-        '''
-        depth_frame1 = self.thr_filter.process(depth_frame1)
-        depth_frame1 = self.depth_to_disparity.process(depth_frame1)
-        depth_frame1 = self.spatial.process(depth_frame1)
-        depth_frame1 = self.disparity_to_depth.process(depth_frame1)
-        depth_frame1 = self.hole_filling.process(depth_frame1)
-        '''
-        '''
-        depth_frame2 = self.thr_filter.process(depth_frame2)
-        depth_frame2 = self.depth_to_disparity.process(depth_frame2)
-        depth_frame2 = self.spatial.process(depth_frame2)
-        depth_frame2 = self.disparity_to_depth.process(depth_frame2)
-        depth_frame2 = self.hole_filling.process(depth_frame2)
-        '''
+        depth_frame = aligned_frames.get_depth_frame()
+        
+        if depth_filter:
+            # depth_frame = self.decimation.process(depth_frame)
+            depth_frame = self.thr_filter.process(depth_frame)
+            depth_frame = self.depth_to_disparity.process(depth_frame)
+            depth_frame = self.spatial.process(depth_frame)
+            depth_frame = self.disparity_to_depth.process(depth_frame)
+            depth_frame = self.hole_filling.process(depth_frame)
 
         depth_image = np.asanyarray(depth_frame.get_data())
 
