@@ -49,6 +49,8 @@ def main():
             TurnRight()
         elif result == 0:
             return # stop
+        
+        cont = input("press enter to continue")
     
         if count >= 500:
             print("count >= 500, stop")
